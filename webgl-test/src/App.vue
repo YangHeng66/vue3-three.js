@@ -5,18 +5,14 @@
 import { onMounted, ref } from 'vue';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-
 let mount = ref(null);
-
 onMounted(() => {
   // 创建一个场景
   const scene = new THREE.Scene();
-
   // 创建一个相机
   // PerspectiveCamera(视角, 宽高比, 近裁剪面, 远裁剪面)
   const camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 1, 1000);
   camera.position.z = 100; // 设置相机位置
-
   // 创建一个渲染器
   const renderer = new THREE.WebGLRenderer();
   renderer.setSize(mount.value.clientWidth, mount.value.clientHeight); // 设置渲染器的大小为视口的大小
@@ -45,22 +41,23 @@ onMounted(() => {
   controls.minDistance = 100; // 设置相机距离目标的最小距离
   controls.maxDistance = 500; // 设置相机距离目标的最大距离
   controls.maxPolarAngle = Math.PI; // 设置相机的极角范围
-
   // 创建一个渲染循环
   const animate = function () {
     requestAnimationFrame(animate);
-
     // 更新控制器
     controls.update();
-
     // 使用相机渲染场景
     renderer.render(scene, camera);
   };
+  //自动旋转
+  setInterval(() => {
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+  }, 1000 / 60);
 
   animate();
 });
 </script>
-
 <style scoped>
 #box {
   width: 100vw;
